@@ -23,10 +23,9 @@
 <body>
 <script src="../../../sir.js"></script>
 <?php require_once "../../utils/navbar.php"; ?>
-<h1> Hello <?php echo $username ?></h1>
-<p>My first paragraph.</p>
-<a href="..\auth\logout.php">sair</a>
-<a href="..\..\index.php">asd</a>
+<h1 class="olaUser"> Olá <?php echo $username ?></h1>
+<h2>Calculadora de Salário</h2>
+
 </body>
 </html>
 
