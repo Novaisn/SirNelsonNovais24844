@@ -2,9 +2,9 @@
     session_start();
 
     if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-        header("location: ..\auth\login.php");
+        header("location: ..\..\auth\login.php");
         exit;
-}
+    }
 
 
     $username = $_SESSION["username"];

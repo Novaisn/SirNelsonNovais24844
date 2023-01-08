@@ -2,7 +2,10 @@
 session_start();
 include "../../db/connection.php";
 $pdo = pdo_connect_mysql();
-
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: ..\..\auth\login.php");
+    exit;
+}
 $username = $_SESSION["username"];
 
 $INSTRUCAO = $pdo->prepare('SELECT id, titulo, percentagem ,estado  from idiomas');

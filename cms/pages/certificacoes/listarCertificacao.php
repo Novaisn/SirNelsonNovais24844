@@ -2,6 +2,10 @@
 session_start();
 include "../../db/connection.php";
 $pdo = pdo_connect_mysql();
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+  header("location: ..\..\auth\login.php");
+  exit;
+}
 
 $username = $_SESSION["username"];
 
@@ -214,7 +218,7 @@ if ($uploadOk == 0) {
                                             <label class="form-label" for="form3Example3">Titulo</label>
                                         </div>
                                         <div class="form-outline mb-3">
-                                          <input type="file" name="fileToUpload" id="fileToUpload">
+                                          <input class type="file" name="fileToUpload" id="fileToUpload">
                                         </div>
                                         
                                         

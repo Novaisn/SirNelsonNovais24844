@@ -3,11 +3,15 @@
 
   require('../../db/connection.php');
   $pdo = pdo_connect_mysql();
-  # podemos utilizar diretamente o método ->query() uma vez que, ainda, não estamos a utilizar varíaveis na instrução SQL
+  if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: ..\..\auth\login.php");
+    exit;
+}
+  
   $INSTRUCAO = $pdo->prepare('SELECT id, username from users WHERE id != :id');
   $INSTRUCAO->bindParam(':id', $_SESSION['id'], PDO::PARAM_INT);
   $INSTRUCAO->execute();
-  # definir o fetch mode
+  
   $INSTRUCAO->setFetchMode(PDO::FETCH_ASSOC);
   $username = $_SESSION["username"];
 
@@ -15,7 +19,7 @@
         header("location: ../welcome/welcome.php");
     }
 
-  #criar utilizador 
+   
   $usernamenew = $passwordnew = $tiponew = $confirm_password = "";
 $username_err = $password_err = $tipo_err = $confirm_password_err = "";
  
@@ -82,7 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bindParam(":tipo", $param_tipo, PDO::PARAM_STR);
             $param_username = $usernamenew;
             $param_tipo = $tiponew;
-            $param_password = password_hash($passwordnew, PASSWORD_DEFAULT); // Creates a password hash
+            $param_password = password_hash($passwordnew, PASSWORD_DEFAULT); 
             
             if($stmt->execute()){
                 header("location: listarUsers.php");
@@ -103,7 +107,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <title>welcome</title>
-    <!-- CSS only -->
+    
     <link rel="stylesheet" type="text/css" href="../../../Style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     
@@ -172,21 +176,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                         <h5 class="fw-normal mb-3 pb-3 letterSp">Novo Utilizador</h5>
                                     
-                                        <!-- username input -->
+                                        
                                         <div class="form-outline mb-4">
                                             <input type="text" name="username" class="form-control form-control-lg <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $usernamenew; ?>">
                                             <span class="invalid-feedback"><?php echo $username_err; ?></span>
                                             <label class="form-label" for="form3Example3">Nome de Utilizador</label>
                                         </div>
 
-                                        <!-- Password input -->
+                                        
                                         <div class="form-outline mb-3">
                                             <input type="password" name="password" class="form-control form-control-lg <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $passwordnew; ?>">
                                             <span class="invalid-feedback"><?php echo $password_err; ?></span>
                                             <label class="form-label" for="form3Example4">Palavra-Passe</label>
                                         </div>
 
-                                        <!-- Password repeat input -->
+                                        
                                         <div class="form-outline mb-3">
                                             <input type="password" name="confirm_password" class="form-control form-control-lg <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
                                             <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
