@@ -162,11 +162,12 @@ if ($uploadOk == 0) {
                                 <form action="editarCertificacao.php?id=<?php echo $_GET['id']; ?>" method="post">
                                     <h5 class="fw-normal mb-3 pb-3 letterSp">Editar Certificação</h5>
                                     
-                                    <!-- username input -->
+                                    
                                     <div class="form-outline mb-4">
                                         <input type="text" name="titulo" class="form-control form-control-lg <?php echo (!empty($titulo_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $inicio['titulo']; ?>" required>
                                         <label class="form-label" for="form3Example3">Titulo</label>
                                     </div>
+                                    <input class="form-control" type="file" id="fileToUpload">
                                     <div class="text-center text-lg-start mt-4 pt-2">
                                         <input type="submit" class="btn btn-primary" value="Editar">
                                     </div>
